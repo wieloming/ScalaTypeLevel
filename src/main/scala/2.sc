@@ -3,10 +3,18 @@ import scala.language.postfixOps
 
 sealed trait Natural {
   def ++ = new Successor(this)
+  type * [_ <: Natural] <: Natural
+  type + [_ <: Natural] <: Natural
 }
-object Zero extends Natural
+object Zero extends Natural {
+  type * [X <: Natural] = Zero.type
+  type + [X <: Natural] = X
+}
 
-final class Successor(n: Natural) extends Natural
+class Successor[N <: Natural] extends Natural {
+  type + [X <: Natural] = Successor[N + X]
+  type * [X <: Natural] = Successor[N * X + X]
+}
 
 val _0 = Zero
 val _1 = _0 ++
