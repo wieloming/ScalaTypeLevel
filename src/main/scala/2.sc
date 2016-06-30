@@ -2,7 +2,7 @@ import scala.language.higherKinds
 import scala.language.postfixOps
 
 sealed trait Natural {
-  def ++ = new Successor(this)
+  def ++ = new Successor
   type * [_ <: Natural] <: Natural
   type + [_ <: Natural] <: Natural
 }
@@ -12,8 +12,8 @@ object Zero extends Natural {
 }
 
 class Successor[N <: Natural] extends Natural {
-  type + [X <: Natural] = Successor[N + X]
-  type * [X <: Natural] = Successor[N * X + X]
+//  type + [X <: Natural] = Successor[N + X]
+//  type * [X <: Natural] = Successor[N * X + X]
 }
 
 val _0 = Zero
@@ -55,4 +55,4 @@ type <=[A, B] = (A < B) || (A =:= B)
 type >=[A, B] = (A > B) || (A =:= B)
 
 implicitly[p2 > p1]
-//implicitly[p2 < p1]
+implicitly[p2 < p1]
